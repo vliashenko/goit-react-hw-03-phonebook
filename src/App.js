@@ -22,8 +22,11 @@ class App extends Component {
     const contact = {
       id,
       ...data
-    }
-    let checker = this.state.contacts.filter( item => item.name === data.name)
+    };
+    const { contacts } = this.state;
+    let checker = contacts.filter( 
+      item => item.name.toLocaleLowerCase() === data.name.toLocaleLowerCase()
+    )
     if(checker.length === 0) {
       this.setState(({ contacts }) => ({
         contacts: [ contact, ...contacts]
@@ -51,6 +54,7 @@ class App extends Component {
   }
 
   render() {
+    const { filter } = this.state;
     const visibleContacts = this.getVisibleContacts()
     return (
       <>
@@ -63,6 +67,7 @@ class App extends Component {
 
         <Container>
           <Filter 
+            filter={ filter }
             onChange={this.changeFilter}  
           />
         </Container>
