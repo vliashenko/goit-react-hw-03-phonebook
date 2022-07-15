@@ -17,6 +17,24 @@ class App extends Component {
     filter: ''
   }
 
+  componentDidMount() {
+    const items = localStorage.getItem("contacts");
+    const parsed = JSON.parse(items);
+    
+    if( parsed.length > 0 ) {
+      this.setState({ contacts: parsed })
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const prev = prevState.contacts;
+    const next = this.state.contacts;
+
+    if( prev !== next ){
+      localStorage.setItem("contacts", JSON.stringify(next))
+    }
+  }
+
   onAddContactHandler = ( data ) => {
     let id = shortid.generate()
     const contact = {
